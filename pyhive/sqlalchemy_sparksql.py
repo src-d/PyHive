@@ -12,7 +12,8 @@ class SparkSqlDialect(sqlalchemy_hive.HiveDialect):
 
     def _get_table_columns(self, connection, table_name, schema):
         full_table = table_name
-        if schema:
+        # Only qualify the table if the schema exists and is not default.
+        if schema and schema.lower() != "default":
             full_table = schema + '.' + table_name
         # TODO using TGetColumnsReq hangs after sending TFetchResultsReq.
         # Using DESCRIBE works but is uglier.
