@@ -365,10 +365,9 @@ class Cursor(common.DBAPICursor):
         _check_status(response)
         self._operationHandle = response.operationHandle
 
-    def cancel(self):
-        req = ttypes.TCancelOperationReq(
-            operationHandle=self._operationHandle,
-        )
+    def cancel(self, operation_handle=None):
+        operation_handle = operation_handle or self._operationHandle
+        req = ttypes.TCancelOperationReq(operationHandle=operation_handle)
         response = self._connection.client.CancelOperation(req)
         _check_status(response)
 
